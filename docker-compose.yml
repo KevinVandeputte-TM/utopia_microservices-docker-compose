@@ -45,7 +45,7 @@ services:
     depends_on:
       - users-service
       - game-service
-    image: r0809699/edge_service
+    image: vdp623/utopia_edgeservice
     ports:
       - 8053:8053
     links:
