@@ -30,7 +30,7 @@ services:
   game-service:
     depends_on:
       - mariadb
-    image: vdp623/utopia_gameservice
+    image: vdp623/utopia_game-service
     ports:
       - 8051:8051
     links:
