@@ -5,6 +5,13 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+
+  mongo2:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container2:/data/db
   
   mariadb:
     image: mariadb:latest
@@ -34,27 +41,43 @@ services:
     ports:
       - 8051:8051
     links:
-      - mariabd
+      - mariadb
     environment:
       MARIADB_USERNAME: root
       MARIADB_PASSWORD: abc123
       MARIADB_HOST: mariadb
       MARIADB_PORT: 3306
 
+  analytic-service:
+    depends_on:
+      - mongo2
+    image: vdp623/utopia_analytic-service
+    ports:
+      - 8054:8054
+    links:
+      - mongo2
+    environment:
+      MONGODB_PORT: 27017
+      MONGODB_HOST: mongo2
+
   edge-service:
     depends_on:
       - users-service
       - game-service
+      - analytic-service
     image: vdp623/utopia_edgeservice
     ports:
       - 8053:8053
     links:
       - users_service2
       - game_service
+      - analytic-service
     environment:
       USER_SERVICE_BASEURL: users-service:8052
       GAME_SERVICE_BASEURL: game-service:8051
+      ANALYTIC_SERVICE_BASEURL: analytic-service:8054
 
 volumes:
   mongodb_data_container:
   mariadb_data_container:
+  mongodb_data_container2:
