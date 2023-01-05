@@ -12,7 +12,14 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container2:/data/db
-  
+
+  mongo3:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container3:/data/db
+
   mariadb:
     image: mariadb:latest
     ports:
@@ -60,6 +67,18 @@ services:
       MONGODB_PORT: 27017
       MONGODB_HOST: mongo2
 
+  feedback-service:
+    depends_on:
+      - mongo3
+    image: vdp623/utopia_feedbackservice
+    ports:
+      - 8055:8055
+    links:
+      - mongo3
+    environment:
+      MONGODB_PORT: 27017
+      MONGODB_HOST: mongo3
+
   edge-service:
     depends_on:
       - users-service
@@ -81,3 +100,4 @@ volumes:
   mongodb_data_container:
   mariadb_data_container:
   mongodb_data_container2:
+  mongodb_data_container3:
