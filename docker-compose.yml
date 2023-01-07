@@ -72,7 +72,7 @@ services:
       - mongo3
     image: vdp623/utopia_feedbackservice
     ports:
-      - 8055:8055
+      - 8056:8056
     links:
       - mongo3
     environment:
