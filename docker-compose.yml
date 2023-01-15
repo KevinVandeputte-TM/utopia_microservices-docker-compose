@@ -9,14 +9,14 @@ services:
   mongo2:
     image: mongo:latest
     ports:
-      - 27017:27017
+      - 27018:27018
     volumes:
       - mongodb_data_container2:/data/db
 
   mongo3:
     image: mongo:latest
     ports:
-      - 27017:27017
+      - 27019:27019
     volumes:
       - mongodb_data_container3:/data/db
 
@@ -64,7 +64,7 @@ services:
     links:
       - mongo2
     environment:
-      MONGODB_PORT: 27017
+      MONGODB_PORT: 27018
       MONGODB_HOST: mongo2
 
   feedback-service:
@@ -76,7 +76,7 @@ services:
     links:
       - mongo3
     environment:
-      MONGODB_PORT: 27017
+      MONGODB_PORT: 27019
       MONGODB_HOST: mongo3
 
   edge-service:
